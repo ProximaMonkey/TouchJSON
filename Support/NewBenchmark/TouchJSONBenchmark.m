@@ -8,39 +8,38 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CJSONDataSerializer.h"
+#import "CJSONSerializer.h"
 #import "CJSONDeserializer.h"
 
 int main (int argc, const char * argv[])
 {
-NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+@autoreleasepool {
+
+    NSDictionary *theDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+        @"Hello", @"World",
+        NULL];
+        
+    CJSONSerializer *theSerializer = [CJSONSerializer serializer];
+    CJSONDeserializer *theDeserializer = [CJSONDeserializer deserializer];
+
+    NSData *theData = [theSerializer serializeObject:theDictionary error:NULL];
+
+    CFAbsoluteTime theStart = CFAbsoluteTimeGetCurrent();
+    for (int N = 0; N != 2000000; ++N)
+        {
+    ////    [theDeserizl serializeObject:theDictionary error:NULL];
+        @autoreleasepool {
+            [theDeserializer deserialize:theData error:NULL];
+            }
+        }
 
 
-NSDictionary *theDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-    @"Hello", @"World",
-    NULL];
-    
-CJSONDataSerializer *theSerializer = [CJSONDataSerializer serializer];
-CJSONDeserializer *theDeserializer = [CJSONDeserializer deserializer];
 
-NSData *theData = [theSerializer serializeObject:theDictionary error:NULL];
+    CFAbsoluteTime theEnd = CFAbsoluteTimeGetCurrent();
 
-CFAbsoluteTime theStart = CFAbsoluteTimeGetCurrent();
-for (int N = 0; N != 2000000; ++N)
-    {
-////    [theDeserizl serializeObject:theDictionary error:NULL];
-    NSAutoreleasePool *thePool = [[NSAutoreleasePool alloc] init];
-    [theDeserializer deserialize:theData error:NULL];
-    [thePool release];
+    NSLog(@"%g", theEnd - theStart);
+
+
     }
-
-
-
-CFAbsoluteTime theEnd = CFAbsoluteTimeGetCurrent();
-
-NSLog(@"%g", theEnd - theStart);
-
-
-[pool drain];
 return 0;
 }
