@@ -49,9 +49,17 @@ inline static unichar CharacterAtPointer(void *start, void *end)
     return(theCharacter);
     }
 
-    static NSCharacterSet *sDoubleCharacters = NULL;
+static NSCharacterSet *sDoubleCharacters = NULL;
 
-    @implementation CDataScanner
+@implementation CDataScanner
+
++ (void)initialize
+    {
+    if (sDoubleCharacters == NULL)
+        {
+        sDoubleCharacters = [NSCharacterSet characterSetWithCharactersInString:@"0123456789eE-+."];
+        }
+    }
 
 - (id)init
     {
@@ -68,20 +76,6 @@ inline static unichar CharacterAtPointer(void *start, void *end)
         [self setData:inData];
         }
     return(self);
-    }
-
-    + (void)initialize
-    {
-    if (sDoubleCharacters == NULL)
-        {
-        sDoubleCharacters = [NSCharacterSet characterSetWithCharactersInString:@"0123456789eE-+."];
-        }
-    }
-
-- (void)dealloc
-    {
-    data = NULL;
-    //
     }
 
 - (NSUInteger)scanLocation
