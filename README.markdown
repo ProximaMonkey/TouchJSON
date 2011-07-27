@@ -1,4 +1,3 @@
-#
 # TouchJSON HOWTO
 
 ## Introduction
