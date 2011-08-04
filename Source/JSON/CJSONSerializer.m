@@ -225,12 +225,12 @@ static NSData *kTrue = NULL;
                 *OUT++ = '\"';
                 }
                 break;
-            case '/':
-                {
-                *OUT++ = '\\';
-                *OUT++ = '/';
-                }
-                break;
+//            case '/':
+//                {
+//                *OUT++ = '\\';
+//                *OUT++ = '/';
+//                }
+//                break;
             case '\b':
                 {
                 *OUT++ = '\\';
